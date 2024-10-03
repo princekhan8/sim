@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prince Khan Data Finder</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 36px;
+            color: #8B0000; /* Blood red color */
+            text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.8); /* Full shadow */
+            margin-bottom: 40px;
+            animation: fadeInTitle 1s ease-out forwards; /* Animation to fade in title */
+        }
+
+        @keyframes fadeInTitle {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .pushable {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            height: 120px;
+            width: 150px;
+            background-color: white; /* White background */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: black; /* Black text */
+            border: 3px solid #8B0000; /* Blood red border */
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Specific button styles */
+        #button1 {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlYzHiTAZBYMS5F5rG2EoQ4KsKwAaiMqse1g&s');
+        }
+
+        #button2 {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlYzHiTAZBYMS5F5rG2EoQ4KsKwAaiMqse1g&s');
+        }
+
+        #button3 {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlYzHiTAZBYMS5F5rG2EoQ4KsKwAaiMqse1g&s');
+        }
+
+        #button4 {
+            background-image: url('https://img.uswitch.com/s3/uswitch-assets-eu/mobiles-comparison-frontend/uswitch-sim-only-20230804.png'); /* Image for Button 4 */
+        }
+
+        #button5 {
+            background-image: url('https://sp2.zingfront.com/sp_opera/9f6bbffc63192c8f78679e654f54ea00.png'); /* Image for Button 5 */
+        }
+
+        #button6 {
+            background-image: url('https://carapi.app/img/vehicle-api-database-hero.png'); /* Image for Button 6 */
+        }
+
+        /* Hidden Car View inside Button 5 */
+        .hidden-car-view {
+            display: none; /* Initially hidden */
+            background-color: #f0f0f0;
+            border: 2px solid #8B0000;
+            position: absolute;
+            top: 50px;
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            overflow: auto;
+        }
+
+        .car-view {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-bottom: 2px solid #8B0000;
+        }
+
+        .car-view img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .car-view-details {
+            margin-left: 20px;
+        }
+
+        .car-view-details h4 {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        .car-view-details p {
+            color: #666;
+        }
+
+        .car-view-button {
+            padding: 5px 10px;
+            background-color: #8B0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .car-view-button:hover {
+            background-color: #a00000;
+        }
+
+        /* Footer Text Styling */
+        .pushable h3 {
+            position: absolute;
+            bottom: 5px; /* Position the text at the bottom of the button */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px; /* Smaller font size for 1-line text */
+            color: black; /* Black text */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin: 0;
+            padding: 5px;
+            border-top: 1px solid pink; /* Pink horizontal border on top of text */
+            border-bottom: 1px solid pink; /* Pink horizontal border on bottom of text */
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); /* Shadow around text */
+            border-radius: 3px; /* Rounded border around text */
+            text-align: center; /* Center the text inside */
+            width: 90%; /* Adjusted width to fit in the button */
+            font-weight: bold; /* Make the text bold */
+        }
+
+        /* Button hover and click animations */
+        .pushable:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .pushable:active {
+            transform: scale(1);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .red-line {
+            background-color: red;
+            height: 2px;
+            width: 100%;
+            margin: 40px 0;
+            opacity: 0; /* Start with opacity 0 */
+            animation: fadeInBloodDrop 1s ease 1s forwards; /* Delay the blood drop line */
+        }
+
+        @keyframes fadeInBloodDrop {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Error Message Styling */
+        #error-message {
+            color: #ff0000;
+            font-size: 20px;
+            font-weight: bold;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            padding: 15px;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h2 class="title">Prince Khan Data Finder</h2>
+
+<!-- Error Message -->
+<div id="error-message">Conecoin Error: Unable to connect to the link.</div>
+
+<!-- Button Container -->
+<div class="button-container">
+    <a href="https://minahilsimdata.online/bulksearch.php" class="pushable" id="button1">
+        <h3>SIM DATA 2022</h3>
+    </a>
+    <a href="http://abhgame.online/" class="pushable" id="button2">
+        <h3>SIM DATA 2022</h3>
+    </a>
+    <a class="pushable" id="button3">
+        <h3>SIM DATA 2022</h3>
+    </a>
+    <a href="https://cnic.sims.pk/" target="_blank" class="pushable" id="button4">
+        <h3>SIM DATA 2022</h3>
+    </a>
+    <a href="https://example.com" target="_blank" class="pushable" id="button5">
+        <h3>SIM DATA 2022</h3>
+    </a>
+    <a href="https://www.vehicle.com/" class="pushable" id="button6">
+        <h3>VICALL DATA</h3>
+    </a>
+</div>
+
+<div class="red-line"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to handle link clicks
+        document.querySelectorAll('.pushable').forEach(button => {
+            button.addEventListener('click', function (e) {
+                const link = button.getAttribute('href');
+
+                if (link && link.startsWith("http")) {
+                    fetch(link, { method: 'HEAD' })
+                        .then(response => {
+                            if (!response.ok) {
+                                showError();
+                            }
+                        })
+                        .catch(() => showError());
+                }
+            });
+        });
+
+        function showError() {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000); // Error message hides after 3 seconds
+        }
+    });
+</script>
+
+</body>
+</html>
